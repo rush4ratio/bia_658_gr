@@ -49,8 +49,9 @@ create_adj_list = function(df){
   return(adj_list)
 }
 ##################################################
+# remember to set your respective directory
 
-dir=setwd("/Users/Matt/Documents/Stevens/BIA 658 Social Network Analytics/Instagram")
+dir=setwd("C:/Users/Rush/OneDrive/SIT/BIA_658_a/group/bia_658_gr")
 ############## Main Program ########################
 insta_csvs <- list.files(path=paste(dir, "/Data", sep=""),pattern="InstaOutputlist_.*\\.csv") 
 
@@ -77,7 +78,7 @@ shinyApp(
                     selected = "Chapel Hill"),
         
         selectInput("selectVisAlgo", label = h3("Visualization Algorithm"), 
-                    choices = list("Circle" = 1, "Sphere"= 2,"Fruchterman Reingold" = 3), 
+                    choices = list("Circle" = 1, "Sphere"= 2,"Fruchterman Reingold" = 3,"Kamada Kawai" = 4, "Spring" = 5, "Gem" = 6), 
                     selected = 1)
         
       ),
@@ -102,7 +103,12 @@ shinyApp(
         l <- layout.sphere(network_selected)
       else if(choice == 3)
         l <- layout.fruchterman.reingold(network_selected)
-
+      else if(choice == 4)
+        l <- layout.kamada.kawai(network_selected)
+      else if(choice == 5)
+        l <- layout.spring(network_selected)
+      else if(choice == 6)
+        l <- layout.gem(network_selected)
       
       plot(network_selected,
            edge.color="#d3d3d3", layout = l)
