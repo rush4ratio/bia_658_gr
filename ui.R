@@ -25,7 +25,9 @@ shinyUI(
         tabPanel("Network",
                  plotOutput("network",width = "750px", height = "750px")),
         tabPanel("Community Detection",
-                 plotOutput("communityDetection",width = "750px", height = "750px"))
+                 plotOutput("communityDetection",width = "750px", height = "750px")),
+        tabPanel("Degree Distribution",
+                 plotOutput("degreeDistribution"))
       ))
     ))
 )

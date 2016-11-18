@@ -52,16 +52,28 @@ shinyServer(
       network_selected <- city_networks[[input$selectNetwork]]
       community = fastgreedy.community(network_selected)
       
+      label_toggle <- NULL
+      if(input$showLabels)
+        label_toggle <- V(network_selected)$name
+      else
+        label_toggle <- ""
+      
       set.seed(5)
       data_layout <- data_layout()
       
       plot(network_selected,
            vertex.color = community$membership, vertex.size = log(degree(network_selected) + 1),
+           vertex.label = label_toggle,
            mark.groups = by(seq_along(community$membership), community$membership,   invisible),
            layout=data_layout )
       
     })
     
-    
+    output$degreeDistribution <- renderPlot({
+      network_selected <- city_networks[[input$selectNetwork]]
+      degree_d <- degree.distribution(network_selected, cumulative=F, mode="all")
+      plot(degree_d , pch=19, cex=1, col="blue", xlab="Degree", ylab="Frequency")
+      
+    })
   }
 )
