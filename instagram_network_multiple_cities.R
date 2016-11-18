@@ -65,6 +65,8 @@ for(index in 1:length(insta_csvs)){
   city_networks[[city]] <- city_network 
 }
 
+
+
 ###### Shiny   #####
 shinyApp(
   ui = fluidPage(
@@ -79,7 +81,10 @@ shinyApp(
         
         selectInput("selectVisAlgo", label = h3("Visualization Algorithm"), 
                     choices = list("Circle" = 1, "Sphere"= 2,"Fruchterman Reingold" = 3,"Kamada Kawai" = 4, "Spring" = 5, "Gem" = 6), 
-                    selected = 1)
+                    selected = 1),
+        hr(),
+        checkboxInput("showLabels", label = p("Show Labels?"), value = TRUE),
+        hr()
         
       ),
       mainPanel(tabsetPanel(
@@ -89,29 +94,41 @@ shinyApp(
       ))
     )),
   server = function(input, output){
+    
+    data_layout <- reactive({
+      if(input$selectVisAlgo == 1)
+        layout_in_circle(city_networks[[input$selectNetwork]] )
+      else if(input$selectVisAlgo == 2)
+        layout.sphere(city_networks[[input$selectNetwork]])
+      else if(input$selectVisAlgo == 3)
+        layout.fruchterman.reingold(city_networks[[input$selectNetwork]])
+      else if(input$selectVisAlgo == 4)
+        layout.kamada.kawai(city_networks[[input$selectNetwork]])
+      else if(input$selectVisAlgo == 5)
+        layout.spring(city_networks[[input$selectNetwork]])
+      else if(input$selectVisAlgo == 6)
+        layout.gem(city_networks[[input$selectNetwork]])
+    })
+    
     output$network <- renderPlot({
       if(is.null(input$selectNetwork)){
         return()
       }
-      
       choice <- input$selectVisAlgo
       network_selected <- city_networks[[input$selectNetwork]]
       
-      if(choice == 1)
-        l <- layout_in_circle(network_selected )
-      else if(choice == 2)
-        l <- layout.sphere(network_selected)
-      else if(choice == 3)
-        l <- layout.fruchterman.reingold(network_selected)
-      else if(choice == 4)
-        l <- layout.kamada.kawai(network_selected)
-      else if(choice == 5)
-        l <- layout.spring(network_selected)
-      else if(choice == 6)
-        l <- layout.gem(network_selected)
+      
+      label_toggle <- NULL
+      if(input$showLabels)
+        label_toggle <- V(network_selected)$name
+      else
+        label_toggle <- ""
+      
+      data_layout <- data_layout()
       
       plot(network_selected,
-           edge.color="#d3d3d3", layout = l)
+           vertex.label = label_toggle,
+           edge.color="#d3d3d3", layout =  data_layout)
       
     })
     output$degreeTable = renderTable({
@@ -125,6 +142,8 @@ shinyApp(
     
   }
 )
+
+
 
 
 
