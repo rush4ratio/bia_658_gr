@@ -23,8 +23,9 @@ shinyUI(
       ),
       mainPanel(tabsetPanel(
         tabPanel("Network",
-                 plotOutput("network",width = "750px", height = "600px"))
-        # tabPanel("Centrality", )
+                 plotOutput("network",width = "750px", height = "750px")),
+        tabPanel("Community Detection",
+                 plotOutput("communityDetection",width = "750px", height = "750px"))
       ))
     ))
 )

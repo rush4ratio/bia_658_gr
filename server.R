@@ -33,6 +33,8 @@ shinyServer(
       data_layout <- data_layout()
       
       plot(network_selected,
+           vertex.frame.color = NA,
+           vertex.label.cex = 0.9,
            vertex.label = label_toggle,
            edge.color="#d3d3d3", layout =  data_layout)
       
@@ -45,6 +47,21 @@ shinyServer(
       deg_cent <-degree_cent[,c(2,1)]
       arrange(deg_cent,desc(Degree_Centrality))
     })
+    
+    output$communityDetection <- renderPlot({
+      network_selected <- city_networks[[input$selectNetwork]]
+      community = fastgreedy.community(network_selected)
+      
+      set.seed(5)
+      data_layout <- data_layout()
+      
+      plot(network_selected,
+           vertex.color = community$membership, vertex.size = log(degree(network_selected) + 1),
+           mark.groups = by(seq_along(community$membership), community$membership,   invisible),
+           layout=data_layout )
+      
+    })
+    
     
   }
 )
