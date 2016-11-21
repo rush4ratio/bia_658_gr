@@ -47,7 +47,10 @@ shinyServer(
         show_edge$width <- E(network_selected)$weight/8
       }
       else if(input$showPEdgeWeight){
+        E(network_selected)$edge.color <- "#d3d3d3"
         E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+        show_edge$color <- E(network_selected)$edge.color
+        show_edge$width <- NA
       }else{
         show_edge$color <- "#d3d3d3"
         show_edge$width <- NA
@@ -103,6 +106,7 @@ shinyServer(
       else if(input$showPEdgeWeight){
         E(network_selected)$edge.color <- "#d3d3d3"
         E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+        show_edge$color <- E(network_selected)$edge.color
         show_edge$width <- NA
       }else{
         show_edge$color <- "#d3d3d3"
