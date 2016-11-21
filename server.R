@@ -35,6 +35,7 @@ shinyServer(
       plot(network_selected,
            vertex.frame.color = NA,
            vertex.label.cex = .9,
+           vertex.size = 10,
            vertex.label = label_toggle,
            edge.color="#d3d3d3",
            layout =  data_layout)
