@@ -3,13 +3,13 @@ shinyServer(
     
     data_layout <- reactive({
       if(input$selectVisAlgo == 1)
-        layout_in_circle(city_networks[[input$selectNetwork]] )
+        layout.kamada.kawai(city_networks[[input$selectNetwork]])
       else if(input$selectVisAlgo == 2)
         layout.sphere(city_networks[[input$selectNetwork]])
       else if(input$selectVisAlgo == 3)
         layout.fruchterman.reingold(city_networks[[input$selectNetwork]])
       else if(input$selectVisAlgo == 4)
-        layout.kamada.kawai(city_networks[[input$selectNetwork]])
+        layout_in_circle(city_networks[[input$selectNetwork]] )
       else if(input$selectVisAlgo == 5)
         layout.spring(city_networks[[input$selectNetwork]])
       else if(input$selectVisAlgo == 6)
@@ -34,9 +34,10 @@ shinyServer(
       
       plot(network_selected,
            vertex.frame.color = NA,
-           vertex.label.cex = 0.9,
+           vertex.label.cex = .9,
            vertex.label = label_toggle,
-           edge.color="#d3d3d3", layout =  data_layout)
+           edge.color="#d3d3d3",
+           layout =  data_layout)
       
     })
     output$degreeTable = renderTable({
@@ -68,12 +69,18 @@ shinyServer(
            layout=data_layout )
       
     })
-    
+    output$geographicView <- renderPlot({
+      network_selected <- city_networks[[input$selectNetwork]]
+      #degree_d <- degree.distribution(network_selected, cumulative=F, mode="all")
+      plot(map_from_network(network_selected))
+      
+    })
     output$degreeDistribution <- renderPlot({
       network_selected <- city_networks[[input$selectNetwork]]
       degree_d <- degree.distribution(network_selected, cumulative=F, mode="all")
       plot(degree_d , pch=19, cex=1, col="blue", xlab="Degree", ylab="Frequency")
       
     })
+    
   }
 )
