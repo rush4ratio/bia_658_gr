@@ -11,11 +11,12 @@ library(tidytext)
 
 ########### Get places data set   ##################
 places <- read_csv("http://simplemaps.com/static/demos/resources/us-cities/cities.csv")
+place_names = tolower(places$city)
 places$city <- tolower(places$city)
 places$city <- gsub(" ", "", place_names)
 places<-unite(places, id, c(city, state), remove=FALSE)
 
-place_names = tolower(places$city)
+
 #rm(places)
 place_names_no_spaces <- gsub(" ", "", place_names)
 
@@ -49,9 +50,11 @@ network_from_csv <- function(file_name){
   adj_list <- subj_tokens %>% group_by(subject) %>% do(create_adj_list(.))
   adj_list_weighted = data.frame(adj_list) %>% group_by(X1, X2) %>% summarise(weight = n())
   
-  places_graph <- graph.data.frame(adj_list[, c("X1", "X2")], directed = FALSE)
+  places_graph <- graph.data.frame(adj_list_weighted[, c("X1", "X2")], directed = FALSE)
+  E(places_graph)$weight = adj_list_weighted$weight
+
   
-  return(simplify(places_graph))
+  return(places_graph)
   
 }
 ##################################################
@@ -74,7 +77,7 @@ create_adj_list = function(df){
 
 dir=setwd("/Users/Matt/Documents/Stevens/BIA 658 Social Network Analytics/Instagram")
 ############## Main Program ########################
-insta_csvs <- list.files(path=paste(dir, "/Data", sep=""),pattern="InstaOutputlist_.*\\.csv") 
+insta_csvs <- list.files(path=paste(getwd(), "/Data", sep=""),pattern="InstaOutputlist_.*\\.csv") 
 
 city_networks = NULL
 

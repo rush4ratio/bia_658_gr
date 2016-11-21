@@ -15,6 +15,8 @@ shinyUI(
                     selected = 1),
         hr(),
         checkboxInput("showLabels", label = p("Show Labels?"), value = TRUE),
+        checkboxInput("showEdgeWeight", label = p("Show edge weight?"), value = FALSE),
+        checkboxInput("showPEdgeWeight", label = p("Show prominent edge weights?"), value = FALSE),
         hr()
       ),
       fluidRow(

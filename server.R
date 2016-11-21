@@ -32,12 +32,35 @@ shinyServer(
       
       data_layout <- data_layout()
       
+      E(network_selected)$edge.color <- "#d3d3d3"
+      E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+      
+      show_edge <- NULL
+      if(input$showEdgeWeight && input$showPEdgeWeight){
+        E(network_selected)$edge.color <- "#d3d3d3"
+        E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+        show_edge$color <- E(network_selected)$edge.color
+        show_edge$width <- E(network_selected)$weight/8
+      }
+      else if(input$showEdgeWeight){
+        show_edge$color <- "#d3d3d3"
+        show_edge$width <- E(network_selected)$weight/8
+      }
+      else if(input$showPEdgeWeight){
+        E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+      }else{
+        show_edge$color <- "#d3d3d3"
+        show_edge$width <- NA
+      }
+      
+
       plot(network_selected,
            vertex.frame.color = NA,
            vertex.label.cex = .9,
            vertex.size = 10,
            vertex.label = label_toggle,
-           edge.color="#d3d3d3",
+           edge.color=show_edge$color,
+           edge.width = show_edge$width,
            layout =  data_layout)
       
     })
@@ -54,19 +77,44 @@ shinyServer(
       network_selected <- city_networks[[input$selectNetwork]]
       community = fastgreedy.community(network_selected)
       
+      # show labels
       label_toggle <- NULL
       if(input$showLabels)
         label_toggle <- V(network_selected)$name
       else
         label_toggle <- ""
       
-      set.seed(5)
+      # set.seed(5)
       data_layout <- data_layout()
+      
+      # edge attributes
+      
+      show_edge <- NULL
+      if(input$showEdgeWeight && input$showPEdgeWeight){
+        E(network_selected)$edge.color <- "#d3d3d3"
+        E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+        show_edge$color <- E(network_selected)$edge.color
+        show_edge$width <- E(network_selected)$weight/8
+      }
+      else if(input$showEdgeWeight){
+        show_edge$color <- "#d3d3d3"
+        show_edge$width <- E(network_selected)$weight/8
+      }
+      else if(input$showPEdgeWeight){
+        E(network_selected)$edge.color <- "#d3d3d3"
+        E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+        show_edge$width <- NA
+      }else{
+        show_edge$color <- "#d3d3d3"
+        show_edge$width <- NA
+      }
       
       plot(network_selected,
            vertex.color = community$membership, vertex.size = log(degree(network_selected) + 1),
            vertex.label = label_toggle,
            mark.groups = by(seq_along(community$membership), community$membership,   invisible),
+           edge.color=show_edge$color,
+           edge.width = show_edge$width,
            layout=data_layout )
       
     })
@@ -85,3 +133,4 @@ shinyServer(
     
   }
 )
+
