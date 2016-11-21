@@ -11,7 +11,7 @@ shinyUI(
                     selected = "Chapel Hill"),
         
         selectInput("selectVisAlgo", label = h3("Visualization Algorithm"), 
-                    choices = list("Circle" = 1, "Sphere"= 2,"Fruchterman Reingold" = 3,"Kamada Kawai" = 4, "Spring" = 5, "Gem" = 6), 
+                    choices = list("Kamada Kawai" = 1, "Sphere"= 2,"Fruchterman Reingold" = 3,"Circle" = 4, "Spring" = 5, "Gem" = 6), 
                     selected = 1),
         hr(),
         checkboxInput("showLabels", label = p("Show Labels?"), value = TRUE),
@@ -26,6 +26,8 @@ shinyUI(
                  plotOutput("network",width = "750px", height = "750px")),
         tabPanel("Community Detection",
                  plotOutput("communityDetection",width = "750px", height = "750px")),
+        tabPanel("Geographic View",
+                 plotOutput("geographicView", width = "750px", height = "750px")),
         tabPanel("Degree Distribution",
                  plotOutput("degreeDistribution"))
       ))
