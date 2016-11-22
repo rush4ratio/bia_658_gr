@@ -87,7 +87,7 @@ shinyServer(
       else
         label_toggle <- ""
       
-      # set.seed(5)
+      set.seed(5)
       data_layout <- data_layout()
       
       # edge attributes
@@ -130,8 +130,8 @@ shinyServer(
     })
     output$degreeDistribution <- renderPlot({
       network_selected <- city_networks[[input$selectNetwork]]
-      degree_d <- degree.distribution(network_selected, cumulative=F, mode="all")
-      plot(degree_d , pch=19, cex=1, col="blue", xlab="Degree", ylab="Frequency")
+      degree_d <- as.numeric(names(table(degree(network_selected))))
+      plot(degree_d ,as.numeric(table(degree(network_selected))), pch=19, cex=1, col="blue", xlab="Degree", ylab="No of Nodes")
       
     })
     

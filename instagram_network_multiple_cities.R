@@ -91,27 +91,28 @@ for(index in 1:length(insta_csvs)){
 
 ###############generate map################
 map_from_network <- function(network_graph){
-  
-  network_selected <- network_graph
-  degree_cent <- as.data.frame(degree(network_selected, normalized = TRUE))
-  degree_cent['city'] <- rownames(degree_cent)
-  colnames(degree_cent)<-c("Degree_Centrality","city")
-  degree_cent <-degree_cent[,c(2,1)]
-  arrange(degree_cent,desc(Degree_Centrality))
-  #degree_cent<- degree_cent[(0:5), ]
-  #arrange(deg_cent,desc(Degree_Centrality))
-  
-  map_table <- (merge(degree_cent, top_cities_2, by = 'city'))
-  
-  # getting the map
-  mapgilbert <- get_map(location = c(lon = mean(map_table$lng), lat = mean(map_table$lat)), zoom = 4,
-                        scale = 2)
-  ggmap(mapgilbert) +
-    geom_point(data = map_table, aes(x = lng, y = lat, fill = "red", alpha = 0.8), size = 5, shape = 21) +
-    guides(fill=FALSE, alpha=FALSE, size=FALSE)
+
+network_selected <- network_graph
+degree_cent <- as.data.frame(degree(network_selected, normalized = TRUE))
+degree_cent['city'] <- rownames(degree_cent)
+colnames(degree_cent)<-c("Degree_Centrality","city")
+degree_cent <-degree_cent[,c(2,1)]
+arrange(degree_cent,desc(Degree_Centrality))
+#degree_cent<- degree_cent[(0:5), ]
+#arrange(deg_cent,desc(Degree_Centrality))
+
+map_table <- (merge(degree_cent, top_cities_2, by = 'city'))
+
+# getting the map
+mapgilbert <- get_map(location = c(lon = mean(map_table$lng), lat = mean(map_table$lat)), zoom = 4,
+                      scale = 2)
+ggmap(mapgilbert) +
+  geom_point(data = map_table, aes(x = lng, y = lat, fill = "red", alpha = 0.8), size = 5, shape = 21) +
+  guides(fill=FALSE, alpha=FALSE, size=FALSE)
 
   
 }
+
 
 setwd("/Users/Matt/Documents/Stevens/BIA 658 Social Network Analytics/Instagram/Git/bia_658_gr")
 ###### Shiny   #####
@@ -119,5 +120,6 @@ runApp()
 
 
 
-#map_from_network(city_networks[['Chapel Hill']]) #test the map
+
+  #map_from_network(city_networks[['Chapel Hill']]) #test the map
 
