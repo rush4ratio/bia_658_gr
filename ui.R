@@ -11,7 +11,7 @@ shinyUI(
                     selected = "Chapel Hill"),
         
         selectInput("selectVisAlgo", label = h3("Visualization Algorithm"), 
-                    choices = list("Kamada Kawai" = 1, "Sphere"= 2,"Fruchterman Reingold" = 3,"Circle" = 4, "Spring" = 5, "Gem" = 6), 
+                    choices = list("Kamada Kawai" = 1, "Sphere"= 2,"Fruchterman Reingold" = 3,"Circle" = 4,"Gem" = 5), 
                     selected = 1),
         hr(),
         checkboxInput("showLabels", label = p("Show Labels?"), value = TRUE),

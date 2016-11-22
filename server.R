@@ -11,8 +11,6 @@ shinyServer(
       else if(input$selectVisAlgo == 4)
         layout_in_circle(city_networks[[input$selectNetwork]] )
       else if(input$selectVisAlgo == 5)
-        layout.spring(city_networks[[input$selectNetwork]])
-      else if(input$selectVisAlgo == 6)
         layout.gem(city_networks[[input$selectNetwork]])
     })
     
