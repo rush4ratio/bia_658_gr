@@ -119,7 +119,5 @@ setwd("/Users/Matt/Documents/Stevens/BIA 658 Social Network Analytics/Instagram/
 runApp()
 
 
-
-
-  #map_from_network(city_networks[['Chapel Hill']]) #test the map
+#map_from_network(city_networks[['Chapel Hill']]) #test the map
 

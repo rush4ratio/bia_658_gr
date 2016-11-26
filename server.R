@@ -36,7 +36,7 @@ shinyServer(
       show_edge <- NULL
       if(input$showEdgeWeight && input$showPEdgeWeight){
         E(network_selected)$edge.color <- "#d3d3d3"
-        E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+        E(network_selected)[E(network_selected)$weight > input$pomm * mean(E(network_selected )$weight)]$edge.color <- "red"
         show_edge$color <- E(network_selected)$edge.color
         show_edge$width <- E(network_selected)$weight/8
       }
@@ -46,7 +46,7 @@ shinyServer(
       }
       else if(input$showPEdgeWeight){
         E(network_selected)$edge.color <- "#d3d3d3"
-        E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+        E(network_selected)[E(network_selected)$weight > input$pomm * mean(E(network_selected )$weight)]$edge.color <- "red"
         show_edge$color <- E(network_selected)$edge.color
         show_edge$width <- NA
       }else{
@@ -93,7 +93,7 @@ shinyServer(
       show_edge <- NULL
       if(input$showEdgeWeight && input$showPEdgeWeight){
         E(network_selected)$edge.color <- "#d3d3d3"
-        E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+        E(network_selected)[E(network_selected)$weight > input$pomm * mean(E(network_selected )$weight)]$edge.color <- "red"
         show_edge$color <- E(network_selected)$edge.color
         show_edge$width <- E(network_selected)$weight/8
       }
@@ -103,7 +103,7 @@ shinyServer(
       }
       else if(input$showPEdgeWeight){
         E(network_selected)$edge.color <- "#d3d3d3"
-        E(network_selected)[E(network_selected)$weight > 2 * mean(E(network_selected )$weight)]$edge.color <- "red"
+        E(network_selected)[E(network_selected)$weight > input$pomm * mean(E(network_selected )$weight)]$edge.color <- "red"
         show_edge$color <- E(network_selected)$edge.color
         show_edge$width <- NA
       }else{

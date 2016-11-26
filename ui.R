@@ -17,6 +17,11 @@ shinyUI(
         checkboxInput("showLabels", label = p("Show Labels?"), value = TRUE),
         checkboxInput("showEdgeWeight", label = p("Show edge weight?"), value = FALSE),
         checkboxInput("showPEdgeWeight", label = p("Show prominent edge weights?"), value = FALSE),
+        conditionalPanel(
+          condition = "input.showPEdgeWeight == true",
+          sliderInput("pomm", label="x times the mean edge weight",
+                      min = 0.5, max = 3.5, value = 1)
+        ),
         hr()
       ),
       fluidRow(
