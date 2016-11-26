@@ -1,5 +1,5 @@
 shinyUI(
-  fluidPage(
+  fluidPage(theme = shinytheme("darkly"),
     sidebarLayout(
       sidebarPanel(
       fluidRow(
@@ -30,11 +30,11 @@ shinyUI(
       ),
       mainPanel(tabsetPanel(
         tabPanel("Network",
-                 plotOutput("network",width = "750px", height = "750px")),
+                 plotOutput("network",width = "800px", height = "750px")),
         tabPanel("Community Detection",
-                 plotOutput("communityDetection",width = "750px", height = "750px")),
+                 plotOutput("communityDetection",width = "800px", height = "750px")),
         tabPanel("Geographic View",
-                 plotOutput("geographicView", width = "750px", height = "750px")),
+                 plotOutput("geographicView", width = "800px", height = "750px")),
         tabPanel("Degree Distribution",
                  plotOutput("degreeDistribution"))
       ))

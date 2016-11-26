@@ -3,6 +3,8 @@ library(readr)
 library(igraph)
 library(tidyr)
 library(shiny)
+# shiny themes - for aesthetics
+library(shinythemes)
 library(ggplot2)
 library(ggmap)
 
