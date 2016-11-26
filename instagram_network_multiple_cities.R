@@ -18,6 +18,12 @@ places$city <- tolower(places$city)
 places$city <- gsub(" ", "", place_names)
 places<-unite(places, id, c(city, state), remove=FALSE)
 
+# state abbreviations
+state_abb <- read_csv("http://www.fonz.net/blog/wp-content/uploads/2008/04/states.csv")
+state_abb$Abbreviation <- tolower(state_abb$Abbreviation) 
+state_abb$State <- tolower(state_abb$State) 
+
+state_abb$State <- gsub(" ", "", state_abb$State)
 
 #rm(places)
 place_names_no_spaces <- gsub(" ", "", place_names)
@@ -45,6 +51,16 @@ network_from_csv <- function(file_name){
   names(insta) <- c("subject", "tag")
   
   subj_unigram = insta %>% unnest_tokens(tokens, tag, to_lower = TRUE)
+
+  # take care of state abbreviations
+  counter <- 1
+  for(token in subj_unigram$tokens){
+    if(match(token, state_abb$Abbreviation, nomatch = 0) != 0){
+      subj_unigram$tokens[counter] <-  state_abb$State[match(token, state_abb$Abbreviation)]
+    }
+    counter <- counter + 1
+  }
+  
   # Because people normally don't put spaces in instagram hash tags.
   subj_tokens <- subj_unigram %>% filter(tokens %in% place_names_no_spaces)
   
