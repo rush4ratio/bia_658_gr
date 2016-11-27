@@ -76,7 +76,12 @@ shinyServer(
     
     output$communityDetection <- renderPlot({
       network_selected <- city_networks[[input$selectNetwork]]
-      community = fastgreedy.community(network_selected)
+      
+      if(input$selectCD == 1){
+        community = edge.betweenness.community(network_selected)
+      }else if(input$selectCD == 2){
+        community = fastgreedy.community(network_selected)
+      }
       
       # show labels
       label_toggle <- NULL
@@ -112,9 +117,9 @@ shinyServer(
       }
       
       plot(network_selected,
-           vertex.color = community$membership, vertex.size = log(degree(network_selected) + 1),
+           vertex.color = community$membership, vertex.size = log(degree(network_selected) + 1),vertex.frame.color = NA,
            vertex.label = label_toggle,
-           mark.groups = by(seq_along(community$membership), community$membership,   invisible),
+           mark.groups = by(seq_along(community$membership), community$membership,   invisible),mark.border = NA,
            edge.color=show_edge$color,
            edge.width = show_edge$width,
            layout=data_layout )
