@@ -78,9 +78,9 @@ shinyServer(
       network_selected <- city_networks[[input$selectNetwork]]
       
       if(input$selectCD == 1){
-        community = edge.betweenness.community(network_selected)
+        community = edge.betweenness.community(network_selected, network_selected$weight)
       }else if(input$selectCD == 2){
-        community = fastgreedy.community(network_selected)
+        community = fastgreedy.community(network_selected, weights = network_selected$weight)
       }
       
       # show labels
